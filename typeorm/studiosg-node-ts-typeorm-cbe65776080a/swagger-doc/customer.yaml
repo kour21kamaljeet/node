@@ -1,0 +1,126 @@
+paths:
+  /customer/loginCustomer:
+    post:
+      tags:
+        - customer
+      description: customer login
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: customerLogin
+          description: customer login object
+          required: true
+          schema:
+            $ref: "#/definitions/customerLogin"
+      responses:
+        200:
+          description: Customer Logged In Successfully...
+        400:
+          description: Bad request
+        500:
+          description: Server Error
+        
+  /customer/registerCustomer:
+    post:
+      tags:
+        - customer
+      description: customer registeration
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: customerRegister
+          description: customer registeration 
+          required: true
+          schema:
+            $ref: "#/definitions/customerRegister"
+      responses:
+        200:
+          description: Customer registration successful
+        400:
+          description: Bad request
+        500:
+          description: Server Error
+  /customer/updateCustomer:
+    put:
+      tags:
+        - customer
+      description: update customer details
+      produces:
+        - application/json
+      security:
+        - bearerAuth: []  
+      parameters:
+        - in: body
+          name: customer object
+          description: update customer object
+          required: true
+          schema:
+            $ref: "#/definitions/updateCustomer"
+      responses:
+        200:
+          description: success
+        400:
+          description: Bad request
+        500:
+          description: Server Error
+
+  /customer/getCustomer:
+    get:
+      tags:
+        - customer
+      description: get customer details based on id
+      produces:
+        - application/json
+      security:
+        - bearerAuth: []  
+      parameters:
+        - in: body
+          name: customer object
+          description: update customer object
+          required: true
+          schema:
+            $ref: "#/definitions/getCustomer"
+      responses:
+        200:
+          description: success
+        400:
+          description: Bad request
+        500:
+          description: Server Error
+
+definitions: # Schema defination for request body
+  customerLogin:
+    properties:
+      email:
+        type: string
+        required: true
+      password:
+        type: string
+        required: true  
+  customerRegister:
+    properties:
+      email:
+        type: string
+        required: true
+      password:
+        type: string
+        required: true
+      name:
+        type: string
+        required: true      
+  updateCustomer:
+    properties:
+      id:
+        type: number
+        required: true
+      name:
+        type: string
+        required: false
+  getCustomer:
+    properties:
+      id:
+        type: number
+        required: true
+      

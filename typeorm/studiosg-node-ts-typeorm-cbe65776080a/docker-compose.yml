@@ -1,0 +1,39 @@
+version: "3.2"
+
+services:
+  ts-bp:
+    build:
+      context: .
+      dockerfile: dev/docker/Dockerfile
+    command: npm run watch
+    ports:
+      - "3001:3001"
+    networks:
+      - ts-bp-net
+    volumes:
+      - .:/var/app/ts-bp-be
+      - /var/app/ts-bp-be/node_modules
+    env_file:
+      - .env # it will overwrite .env file content
+    depends_on:
+      - ts-bp_postgres
+
+  ts-bp_postgres:
+    image: mysql:5
+    command: --disable-partition-engine-check
+    restart: always
+    environment:
+      #MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3377:3306"
+    networks:
+      - ts-bp-net
+    volumes:
+      - "mysql-data:/var/lib/mysql"
+
+networks:
+  ts-bp-net:
+    driver: bridge
+volumes:
+  mysql-data:
